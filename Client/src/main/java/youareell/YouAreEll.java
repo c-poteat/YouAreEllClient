@@ -3,11 +3,18 @@ package youareell;
 import controllers.*;
 
 public class YouAreEll {
-
+    MessageController messageController;
+    IdController idController;
     TransactionController tt;
+
 
     public YouAreEll (TransactionController t) {
         this.tt = t;
+    }
+    public YouAreEll (MessageController messageController, IdController idControllerr) {
+        this.messageController = messageController;
+        this.idController = idControllerr;
+
     }
 
     public static void main(String[] args) {
@@ -19,7 +26,9 @@ public class YouAreEll {
         System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
         System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
     }
-
+    private String MakeURLCall(String s, String get, String s1) {
+    return "";
+    }
     public String get_ids() {
         return tt.makecall("/ids", "GET", "");
     }
