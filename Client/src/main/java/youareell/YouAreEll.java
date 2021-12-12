@@ -10,6 +10,8 @@ public class YouAreEll {
 
     public YouAreEll (TransactionController t) {
         this.tt = t;
+        this.messageController = t.getMsgCtrl();
+        this.idController = t.getIdCtrl();
     }
     public YouAreEll (MessageController messageController, IdController idControllerr) {
         this.messageController = messageController;
@@ -24,8 +26,10 @@ public class YouAreEll {
                 new MessageController(), new IdController()
         ));
         System.out.println(urlhandler.MakeURLCall("/ids", "GET", ""));
+        urlhandler.idController.getIds();
         System.out.println(urlhandler.MakeURLCall("/messages", "GET", ""));
     }
+
     private String MakeURLCall(String s, String get, String s1) {
     return "";
     }

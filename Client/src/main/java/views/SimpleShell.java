@@ -14,13 +14,11 @@ import youareell.YouAreEll;
 // Simple Shell is a Console view for youareell.YouAreEll.
 public class SimpleShell {
 
-
     public static void prettyPrint(String output) {
         // yep, make an effort to format things nicely, eh?
         System.out.println(output);
     }
     public static void main(String[] args) throws java.io.IOException {
-
         YouAreEll webber = new YouAreEll(new MessageController(), new IdController());
         
         String commandLine;
@@ -52,7 +50,6 @@ public class SimpleShell {
             for (int i = 0; i < commands.length; i++) {
                 //System.out.println(commands[i]); //***check to see if parsing/split worked***
                 list.add(commands[i]);
-
             }
             System.out.print(list); //***check to see if list was added correctly***
             history.addAll(list);
@@ -63,7 +60,6 @@ public class SimpleShell {
                         System.out.println((index++) + " " + s);
                     continue;
                 }
-
                 // Specific Commands.
 
                 // ids
@@ -107,8 +103,6 @@ public class SimpleShell {
                  while ((line = br.readLine()) != null)
                      System.out.println(line);
                  br.close();
-
-
             }
 
             //catch ioexception, output appropriate message, resume waiting for input
@@ -123,10 +117,6 @@ public class SimpleShell {
              * 4. obtain the output stream
              * 5. output the contents returned by the command
              */
-
         }
-
-
     }
-
 }
