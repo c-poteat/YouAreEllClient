@@ -1,15 +1,11 @@
 package controllers;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.http.*;
+
+import com.google.gson.Gson;
 import models.Id;
 
 
@@ -19,39 +15,26 @@ import models.Id;
 public class IdController {
     private HashMap<String, Id> allIds;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private TransactionController tc = new TransactionController();
 
     Id myId;
 
-    public ArrayList<Id> getIds() {
+    public String getIds() {
+        String data = "";
         try {
-            HttpClient client = HttpClient.newBuilder().build(); // creates new client
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create("http://zipcode.rocks:8085/ids"))
-                    .GET()
-                    .build();
-//                .header("Content-Type", "application/json")
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            List<Id> idList = objectMapper.readValue(response.body(), new TypeReference<List<Id>>() {
-            });
-            System.out.println(response.body());
-            System.out.println(idList.get(0).getGithub());
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
+            data = tc.get("ids").body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return null;
+        return data;
     }
-
-
-    public Id postId(Id id) {
-        // create json from id
-        // call server, get json result Or error
-        // result json to Id obj
-
-        return null;
-    }
+        public Id postId(Id id) throws IOException {
+            String payload = new Gson().toJson(id);
+            tc.post("ids",payload);
+            return id;
+        }
 
     public Id putId(Id id) {
         return null;
     }
-
 }

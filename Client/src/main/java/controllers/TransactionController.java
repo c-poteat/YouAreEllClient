@@ -1,34 +1,48 @@
 package controllers;
 
-import models.Id;
+import okhttp3.*;
 
-import java.util.List;
+import java.io.IOException;
 
 public class TransactionController {
-    private String rootURL = "http://zipcode.rocks:8085";
-    private MessageController msgCtrl;
-    private IdController idCtrl;
+    private String rootURL = "http://zipcode.rocks:8085/";
+    private OkHttpClient client;
+    private MediaType mediaType;
 
-    public TransactionController(MessageController m, IdController j) {
-        this.msgCtrl = m;
-        this.idCtrl = j;
+    public TransactionController() {
+        client = new OkHttpClient();
+        mediaType = MediaType.parse("application/json");
     }
 
-    public MessageController getMsgCtrl() {
-        return msgCtrl;
+    //    public MessageController getMsgCtrl() {
+//        return msgCtrl;
+//    }
+//
+//    public IdController getIdCtrl() {
+//        return idCtrl;
+//    }
+    // Building a URL request for get.
+    public Response get(String path) throws IOException {
+        Request request = new Request.Builder()
+                .url(rootURL + path)
+                .method("GET", null)
+                //.addHeader("Content-Type", "application/json")
+                .build();
+        Response response = client.newCall(request).execute();
+        System.out.println(response.body().string());
+        return null;
     }
 
-    public IdController getIdCtrl() {
-        return idCtrl;
-    }
-
-    public List<Id> getIds() {
-    return idCtrl.getIds();
-    }
-    public String postId(String idtoRegister, String githubName) {
-        Id tid = new Id(idtoRegister, githubName);
-        tid = idCtrl.postId(tid);
-        return ("Id registered.");
+    // Building a URL request for posting.
+    public String post(String url, String json) throws IOException {
+        RequestBody body = RequestBody.create(mediaType, json);
+        Request request = new Request.Builder()
+                .url(rootURL + url)
+                .post(body)
+                .build();
+        try (Response response = client.newCall(request).execute()) {
+            return response.body().string();
+        }
     }
 
     public String makecall(String s, String get, String s1) {
